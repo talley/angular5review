@@ -1,7 +1,8 @@
 <div class="container">
     <h1>Stories</h1>
     <div id="v-app">
-      <table class="table table-striped">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
         <tr>
           <th>#</th>
           <th>Plot</th>
@@ -9,6 +10,8 @@
           <th>Upvotes</th>
           <th>Actions</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let story of stories" is="story">
           <td>
             {{story.id}}
@@ -53,10 +56,12 @@
             </div>
           </td>
         </tr>
+      </tbody>
+    </table>
         <p class="lead">Here's a list of all your stories.
           <button (click)="createStory()" class="btn btn-primary">Add a new one?</button>
         </p>
         <pre>{{ stories | json }}</pre>
-      </table>
+      
     </div>
   </div>

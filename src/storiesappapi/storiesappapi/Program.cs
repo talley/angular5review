@@ -13,6 +13,7 @@ namespace storiesappapi
             // Add services to the container.
 
             builder.Services.AddDbContext<StoriesDBContext>(opt => opt.UseSqlServer(DbHelper.CS));
+            builder.Services.AddCors();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -31,7 +32,10 @@ namespace storiesappapi
 
             app.UseAuthorization();
 
-
+            app.UseCors(builder => builder
+     .AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader());
             app.MapControllers();
 
             app.Run();

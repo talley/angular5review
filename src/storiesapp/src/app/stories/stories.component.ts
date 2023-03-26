@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { Story } from './story';
-
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-stories',
   templateUrl: './stories.component.html',
   styleUrls: ['./stories.component.css']
 })
-export class StoriesComponent implements OnInit {
+export class StoriesComponent implements AfterViewInit, OnDestroy, OnInit {
+  @ViewChild(DataTableDirective, {static: false})
   public story: Story;
   public stories: Story[] = [];
   public data: any;
   public errorclss:string='';
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(private storyService: ProductService) {
     var s1 = new Story(0, '', '', 0,true);
@@ -21,8 +25,28 @@ export class StoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.dtOptions = {
+      destroy: true,
+      ordering: true,
+      //pagelength: 10,
+      pagingType: "full_numbers",
+      columnDefs: [{ 
+        targets: 0
+       // checkboxes:{
+       // selectRow: true,
+       // selected: true
+      }]
+    };
   }
+
+  ngOnDestroy(): void {
+    $.fn['dataTable'].ext.search.pop();
+  }
+
+  ngAfterViewInit(): void {
+    //this.dtTrigger.next();
+  }
+  
   upvoteStory(story: Story): void {
     story.upvotes++;
     this.storyService.patchStory(story);

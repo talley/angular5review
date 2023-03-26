@@ -4,8 +4,6 @@ import { tap, catchError, map } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { Story } from '../stories/story';
 
-//import { HttpClient } from '@angular/common/http/http';
-
 
 
 @Injectable({
@@ -13,7 +11,7 @@ import { Story } from '../stories/story';
 })
 export class ProductService implements OnInit {
 
-  private service_url: string = 'http://localhost:14611/api/stories/';//
+  private service_url: string = 'https://localhost:7076/api/Stories/';//
   public story!: Story;
   ngOnInit(): void {
     //throw new Error("Method not implemented.");
